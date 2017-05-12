@@ -32,6 +32,7 @@ if [ ! -f /var/www/piler/config-site.php ]; then
     webui_install
     clean_up_temp_stuff
   )
+  exit
 fi
 
 # setup handlers
