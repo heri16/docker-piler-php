@@ -3,7 +3,7 @@ Piler web ui as Docker image (http://mailpiler.org)
 
 ## Configure New Installation:
 ```bash
-docker run -ti --rm -v /usr/local/etc/piler/:/usr/local/etc/piler:ro -v /var/www/piler/:/var/www/piler:rw heri16/piler-php
+docker run -ti --rm -v /usr/local/etc/piler/:/usr/local/etc/piler:ro -v /var/www/piler/:/var/www/piler:rw,Z heri16/piler-php
 # gather_webserver_data
 # gather_mysql_account
 # gather_smtp_relay_data
