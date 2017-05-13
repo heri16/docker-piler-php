@@ -5,7 +5,7 @@ pid=0
 
 # SIGTERM-handler
 term_handler() {
-  if [ $pid -ne 0 ]; then
+  if [ -n "$pid" ] && [ $pid -ne 0 ]; then
     kill -SIGTERM "$pid"
     wait "$pid"
   fi

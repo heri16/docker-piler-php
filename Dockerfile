@@ -13,7 +13,7 @@ RUN apk add --no-cache freetype libpng libjpeg-turbo libmemcached-libs freetype-
   docker-php-ext-install -j${NPROC} pdo pdo_mysql mbstring gd memcached && \
   apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev cyrus-sasl-dev
 
-RUN apk add --no-cache build-base git gettext-dev automake autoconf libtool mariadb-dev openssl-dev && \ 
+RUN apk add --no-cache mariadb-client-libs libintl git gettext-dev openssl-dev mariadb-dev build-base automake autoconf libtool && \ 
   NPROC=$(getconf _NPROCESSORS_ONLN) && \
   mkdir -p /usr/src/tre && \
   curl -L https://github.com/laurikari/tre/archive/master.tar.gz  | tar --strip-components=1 -xzC /usr/src/tre && \
@@ -26,7 +26,7 @@ RUN apk add --no-cache build-base git gettext-dev automake autoconf libtool mari
   sed -e'/load_default_values$/q' ./util/postinstall.sh > /tmp/postinstall.sh && \
   cd /tmp && echo $'make_cron_entries\ncrontab -u $PILERUSER $CRON_TMP\nclean_up_temp_stuff' >> postinstall.sh && sh postinstall.sh && rm postinstall.sh && \
   ln -s /usr/local/bin/php /usr/bin/php && \
-  apk del --no-cache build-base git gettext-dev automake autoconf libtool mariadb-dev openssl-dev
+  apk del --no-cache git gettext-dev openssl-dev mariadb-dev build-base automake autoconf libtool
 
 #EXPOSE 9000/tcp
 
