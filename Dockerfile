@@ -1,6 +1,6 @@
 FROM php:fpm-alpine
 
-RUN apk add --no-cache freetype libpng libjpeg-turbo libmemcached-libs freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev cyrus-sasl-dev && \
+RUN apk add --no-cache freetype libpng libjpeg-turbo libmemcached-libs c-client freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev cyrus-sasl-dev imap-dev openssl-dev && \
   mkdir -p /usr/src/php/ext/memcached && \
   curl -L https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz | tar --strip-components=1 -xzC /usr/src/php/ext/memcached && \
   docker-php-ext-configure gd \
@@ -9,9 +9,10 @@ RUN apk add --no-cache freetype libpng libjpeg-turbo libmemcached-libs freetype-
     --with-png-dir=/usr/include/ \
     --with-jpeg-dir=/usr/include/ && \
   docker-php-ext-configure memcached --disable-memcached-sasl && \
+  docker-php-ext-configure imap --with-imap-ssl && \
   NPROC=$(getconf _NPROCESSORS_ONLN) && \
-  docker-php-ext-install -j${NPROC} pdo pdo_mysql mbstring gd memcached && \
-  apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev cyrus-sasl-dev
+  docker-php-ext-install -j${NPROC} pdo pdo_mysql mbstring gd memcached imap && \
+  apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev cyrus-sasl-dev imap-dev openssl-dev
 
 RUN apk add --no-cache mariadb-client-libs libintl git gettext-dev openssl-dev mariadb-dev build-base automake autoconf libtool && \ 
   NPROC=$(getconf _NPROCESSORS_ONLN) && \
